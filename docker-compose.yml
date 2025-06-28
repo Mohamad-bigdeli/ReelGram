@@ -1,0 +1,111 @@
+version: "3.8"
+
+services:
+  backend:
+    container_name: reelgram-backend
+    command: sh ./docker/scripts/backend.sh
+    restart: on-failure
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    ports:
+      - "8000:8000"
+    env_file:
+      - ./envs/.env.local
+    environment:
+      - DJANGO_SETTINGS_MODULE=${DJANGO_SETTINGS_MODULE}
+      - ENVIRONMENT=${ENVIRONMENT}
+    volumes: 
+      - .:/app
+    networks:
+      - main
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      rabbitmq: 
+        condition: service_healthy
+  postgres:
+    container_name: postgres-db
+    image: postgres:alpine
+    restart: on-failure
+    ports:
+      - "5432:5432"
+    env_file:
+      - ./envs/.env.local
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    volumes:
+      - reelgram_postgres_data:/var/lib/postgresql/data/
+    networks:
+      - main
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres"]
+      interval: 10s
+      timeout: 10s
+      retries: 5
+  redis:
+    container_name: redis
+    image: redis
+    restart: on-failure
+    ports:
+      - "6379:6379"
+    volumes:
+      - reelgram_redis_data:/var/lib/redis
+    networks:
+      - main
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 10s
+      retries: 5
+  rabbitmq:
+    container_name: rabbitmq
+    image: rabbitmq:3.13-management
+    restart: on-failure
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - reelgram_rabbitmq_data:/var/lib/rabbitmq
+    env_file:
+      - ./envs/.env.local
+    environment:
+        - RABBITMQ_DEFAULT_USER=${RABBITMQ_DEFAULT_USER}
+        - RABBITMQ_DEFAULT_PASS=${RABBITMQ_DEFAULT_PASS}
+    networks:
+      - main
+    healthcheck:
+      test: ["CMD", "rabbitmqctl", "ping"]
+      interval: 10s
+      timeout: 10s
+      retries: 5
+  celery:
+    container_name: reelgram-celery
+    command: sh ./docker/scripts/celery.sh
+    restart: on-failure
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    env_file:
+      - ./envs/.env.local
+    environment:
+      - DJANGO_SETTINGS_MODULE=${DJANGO_SETTINGS_MODULE}
+      - ENVIRONMENT=${ENVIRONMENT}
+    volumes: 
+      - .:/app
+    networks:
+      - main
+    depends_on:
+      - backend
+
+volumes:
+  reelgram_rabbitmq_data:
+  reelgram_postgres_data:
+  reelgram_redis_data:
+
+networks:
+  main:

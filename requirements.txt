@@ -1,0 +1,13 @@
+Django==4.2
+djangorestframework
+drf-spectacular
+ruff
+python-decouple
+pytest
+pytest-django
+celery
+redis
+django-redis
+gunicorn
+psycopg2-binary
+sqlalchemy
