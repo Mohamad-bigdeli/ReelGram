@@ -38,6 +38,7 @@ services:
       - POSTGRES_DB=${POSTGRES_DB}
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_HOST_AUTH_METHOD=trust
     volumes:
       - reelgram_postgres_data:/var/lib/postgresql/data/
     networks:
@@ -102,6 +103,7 @@ services:
     depends_on:
       - backend
 
+
 volumes:
   reelgram_rabbitmq_data:
   reelgram_postgres_data:
@@ -109,3 +111,4 @@ volumes:
 
 networks:
   main:
+    name: main
