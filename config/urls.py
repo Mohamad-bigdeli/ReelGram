@@ -27,7 +27,6 @@ import debug_toolbar
 
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
 ]
 
 # serving static and media for development
@@ -35,8 +34,9 @@ if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
-    # debug toolbar urls and swagger
+    # debug toolbar urls and swagger schema and django admin panel 
     urlpatterns += [
+        path('admin/', admin.site.urls),
         path('__debug__/', include(debug_toolbar.urls)),
 
         path("api/schema/", SpectacularAPIView.as_view(), name="schema"),

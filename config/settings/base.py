@@ -48,7 +48,6 @@ LOCAL_APPS = [
 
 THIRD_PARTY_MODULES = [
     "rest_framework",
-    "drf_spectacular",
 ]
 
 INSTALLED_APPS = [

@@ -12,3 +12,6 @@ gunicorn
 psycopg2-binary
 sqlalchemy
 django-debug-toolbar
+uuid
+pillow
+faker

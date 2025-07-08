@@ -38,6 +38,7 @@ exclude = [
     "**/fixtures",
     "**/test_*.py",
     "**/tests.py",
+    "**/apps.py",
 ]
 
 [tool.ruff.isort]
