@@ -9,10 +9,10 @@ import uuid
 
 class User(AbstractBaseUser, PermissionsMixin):
 
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    email = models.EmailField(unique=True, null=False)
+    id = models.UUIDField(primary_key=True, unique=True, default=uuid.uuid4, editable=False)
+    email = models.EmailField(unique=True)
     username = models.CharField(
-        max_length=225, unique=True, null=False,
+        max_length=225, unique=True,
         validators=[RegexValidator(regex=r'^[a-zA-Z0-9_]+$',
         message=_('Username can only contain letters, numbers, and underscores'))]
     )

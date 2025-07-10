@@ -27,6 +27,7 @@ import debug_toolbar
 
 
 urlpatterns = [
+    path("", include("users.urls", namespace="users"))
 ]
 
 # serving static and media for development
