@@ -83,7 +83,7 @@ services:
       test: ["CMD", "rabbitmqctl", "ping"]
       interval: 10s
       timeout: 10s
-      retries: 5
+      retries: 10
   celery:
     container_name: reelgram-celery
     command: sh ./docker/scripts/celery.sh
