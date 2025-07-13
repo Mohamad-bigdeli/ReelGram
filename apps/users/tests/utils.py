@@ -11,9 +11,9 @@ def user_valid_data() -> dict:
 
 def user_invalid_data() -> dict:
     return {
-        "email":"invalid#email.com",
-        "username":"as#",
-        "password":"aa1234@"
+        "email": "not-an-email",
+        "username": "a!",
+        "password": "123"
     }
 
 def profile_data() -> dict:
