@@ -5,6 +5,7 @@ ruff
 python-decouple
 pytest
 pytest-django
+unittest
 celery
 redis
 django-redis
