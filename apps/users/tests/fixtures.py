@@ -18,7 +18,7 @@ def user_instance() -> User:
 
 @pytest.fixture(scope="session")
 def base_url() -> str:
-    return "http://127.0.0.1:8000/api/v1/users/"
+    return "http://127.0.0.1/api/v1/users/"
 
 @pytest.fixture
 def mock_user():
