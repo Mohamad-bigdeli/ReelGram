@@ -5,7 +5,6 @@ ruff
 python-decouple
 pytest
 pytest-django
-unittest
 celery
 redis
 django-redis
@@ -16,3 +15,6 @@ django-debug-toolbar
 uuid
 pillow
 faker
+djangorestframework-simplejwt
+django-ratelimit
+cryptography

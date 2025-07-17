@@ -47,3 +47,23 @@ class UserRegistrationSerializer(serializers.Serializer):
             raise ValidationError(errors)
     
         return super().validate(attrs)
+
+class UserLoginSerializer(serializers.Serializer):
+    email = serializers.EmailField(required=True)
+    password = serializers.CharField(required=True, max_length=255)
+
+    def validate(self, attrs):
+        errors = []
+        email = attrs.get("email")
+        password = attrs.get("password")
+        try:
+            EmailValidator(email)
+        except ValidationError:
+            errors.append("Please enter a valid email address")
+        try:
+            validate_password(password)
+        except ValidationError as e:
+            errors.extend(e.messages)
+        if errors:
+            raise ValidationError(errors)
+        return super().validate(attrs)
