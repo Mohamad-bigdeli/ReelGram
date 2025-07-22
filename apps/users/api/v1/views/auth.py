@@ -101,7 +101,7 @@ class UserLogOutAPIView(APIView):
                 pass
         response = Response({"detail":{
             "status":"successful",
-        }})
+        }}, status=status.HTTP_200_OK)
         response.delete_cookie("refresh_token")
         return response
 
@@ -122,7 +122,9 @@ class UserRefreshTokenAPIView(APIView):
             response = Response({"detail":{
                 "status":"successful",
                 "token":{
-                    "access_token":new_tokens["access_token"]
+                    "access_token":new_tokens["access_token"],
+                    "token_type":"Bearer",
+                    "expires_in":1800
                 }
             }}, status=status.HTTP_200_OK)
             response.set_cookie(
